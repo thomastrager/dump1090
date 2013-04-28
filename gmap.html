@@ -38,7 +38,8 @@
       src="https://maps.googleapis.com/maps/api/js?sensor=true">
     </script>
     <script type="text/javascript">
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi">
+    </script>
     <script type="text/javascript">
     Map=null;
     CenterLat=45.0;
@@ -162,17 +163,17 @@
          geoloc = true;
          }
         
-        var mapOptions = {
+        var mapOptions = {};
             if (geoloc)
             {
-            center: new google.maps.LatLng(loc.lat, loc.lng),
+             mapOptions.center = new google.maps.LatLng(loc.lat, loc.lng);
             }
             else {
-            center: new google.maps.LatLng(CenterLat, CenterLon),
+             mapOptions.center = new google.maps.LatLng(CenterLat, CenterLon);
             }
-            zoom: 5,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+             mapOptions.zoom = 5;
+             mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+             
         Map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
         /* Setup our timer to poll from the server. */
