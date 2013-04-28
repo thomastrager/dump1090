@@ -94,10 +94,10 @@
         }
         html += 'Altitude: '+p.altitude;
         if  (p.metric == 1) { html+=' m <br>';}
-        else { html+= 'feet <br>';}
+        else { html+= ' feet <br>';}
         html += 'Speed: '+p.speed;
         if  (p.metric == 1) { html+=' km/h <br>';}
-        else { html+= 'knots <br>';}
+        else { html+= ' knots <br>';}
         html += 'Coordinates: '+p.lat+', '+p.lon+'<br>';
         i.innerHTML = html;
     }
