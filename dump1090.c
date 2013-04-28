@@ -2154,8 +2154,8 @@ char *aircraftsToJson(int *len) {
 
         /* Convert units to metric if --metric was specified. */
         if (Modes.metric) {
-            (int) altitude /= 3.2828;
-            (int) speed *= 1.852;
+            altitude = (int) altitude / 3.2828;
+            speed = (int) speed * 1.852;
             a->metric = 1;
         }
         else
@@ -2167,7 +2167,7 @@ char *aircraftsToJson(int *len) {
             l = snprintf(p,buflen,
                 "{\"hex\":\"%s\", \"flight\":\"%s\", \"lat\":%f, "
                 "\"lon\":%f, \"altitude\":%d, \"track\":%d, "
-                "\"speed\":%d, \"metric\":%d},\n",
+                "\"speed\":%d, \"metric\":%d,},\n",
                 a->hexaddr, a->flight, a->lat, a->lon,altitude, a->track,
                 speed,a->metric);
             p += l; buflen -= l;
