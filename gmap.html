@@ -92,8 +92,12 @@
         if (p.flight.length) {
             html += '<b>'+p.flight+'</b><br>';
         }
-        html += 'Altitude: '+p.altitude+'(feet or m)<br>';
-        html += 'Speed: '+p.speed+' (knots or km/h)<br>';
+        html += 'Altitude: '+p.altitude;
+        if  (p.metric = 1) { html+= 'm <br>';}
+        else { html+= 'feet <br>';}
+        html += 'Speed: '+p.speed;
+        if  (p.metric = 1) { html+= 'km/h <br>';}
+        else { html+= 'knots <br>';}
         html += 'Coordinates: '+p.lat+', '+p.lon+'<br>';
         i.innerHTML = html;
     }
@@ -120,6 +124,7 @@
                     myplane.lon = plane.lon;
                     myplane.track = plane.track;
                     myplane.flight = plane.flight;
+                    myplane.metric = place.metric;
                     if (myplane.hex == Selected)
                         refreshSelectedInfo();
                 } else {
