@@ -2167,7 +2167,7 @@ char *aircraftsToJson(int *len) {
             l = snprintf(p,buflen,
                 "{\"hex\":\"%s\", \"flight\":\"%s\", \"lat\":%f, "
                 "\"lon\":%f, \"altitude\":%d, \"track\":%d, "
-                "\"speed\":%d, \"metric\":%d},\n",
+                "\"speed\":%d, \"metric\":%d,},\n",
                 a->hexaddr, a->flight, a->lat, a->lon,altitude, a->track,
                 speed,a->metric);
             p += l; buflen -= l;
