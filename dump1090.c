@@ -120,6 +120,7 @@ struct aircraft {
     double lat, lon;    /* Coordinated obtained from CPR encoded data. */
     long long odd_cprtime, even_cprtime;
     struct aircraft *next; /* Next aircraft in our linked list. */
+    int metric;
 };
 
 /* Program global state. */
@@ -2153,17 +2154,22 @@ char *aircraftsToJson(int *len) {
 
         /* Convert units to metric if --metric was specified. */
         if (Modes.metric) {
-            altitude /= 3.2828;
-            speed *= 1.852;
+            altitude = (int) altitude / 3.2828;
+            speed = (int) speed * 1.852;
+            a->metric = 1;
+        }
+        else
+        {
+        	a->metric = 0;
         }
 
         if (a->lat != 0 && a->lon != 0) {
             l = snprintf(p,buflen,
                 "{\"hex\":\"%s\", \"flight\":\"%s\", \"lat\":%f, "
                 "\"lon\":%f, \"altitude\":%d, \"track\":%d, "
-                "\"speed\":%d},\n",
-                a->hexaddr, a->flight, a->lat, a->lon, a->altitude, a->track,
-                a->speed);
+                "\"speed\":%d, \"metric\":%d},\n",
+                a->hexaddr, a->flight, a->lat, a->lon,altitude, a->track,
+                speed,a->metric);
             p += l; buflen -= l;
             /* Resize if needed. */
             if (buflen < 256) {

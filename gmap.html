@@ -37,6 +37,8 @@
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?sensor=true">
     </script>
+    <script type="text/javascript" src="http://www.google.com/jsapi">
+    </script>
     <script type="text/javascript">
     Map=null;
     CenterLat=45.0;
@@ -90,8 +92,12 @@
         if (p.flight.length) {
             html += '<b>'+p.flight+'</b><br>';
         }
-        html += 'Altitude: '+p.altitude+' feet<br>';
-        html += 'Speed: '+p.speed+' knots<br>';
+        html += 'Altitude: '+p.altitude;
+        if  (p.metric == 1) { html+=' m <br>';}
+        else { html+= ' feet <br>';}
+        html += 'Speed: '+p.speed;
+        if  (p.metric == 1) { html+=' km/h <br>';}
+        else { html+= ' knots <br>';}
         html += 'Coordinates: '+p.lat+', '+p.lon+'<br>';
         i.innerHTML = html;
     }
@@ -118,6 +124,7 @@
                     myplane.lon = plane.lon;
                     myplane.track = plane.track;
                     myplane.flight = plane.flight;
+                    myplane.metric = plane.metric;
                     if (myplane.hex == Selected)
                         refreshSelectedInfo();
                 } else {
@@ -151,11 +158,26 @@
     }
 
     function initialize() {
-        var mapOptions = {
-            center: new google.maps.LatLng(CenterLat, CenterLon),
-            zoom: 5,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+      var geoloc = false;
+        var loc = {};
+        var geocoder = new google.maps.Geocoder();
+        if(google.loader.ClientLocation) {
+         loc.lat = google.loader.ClientLocation.latitude;
+         loc.lng = google.loader.ClientLocation.longitude;
+         geoloc = true;
+         }
+        
+        var mapOptions = {};
+            if (geoloc)
+            {
+             mapOptions.center = new google.maps.LatLng(loc.lat, loc.lng);
+            }
+            else {
+             mapOptions.center = new google.maps.LatLng(CenterLat, CenterLon);
+            }
+             mapOptions.zoom = 8;
+             mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+             
         Map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
         /* Setup our timer to poll from the server. */
